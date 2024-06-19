@@ -1,7 +1,8 @@
-import React from "react";
-import list from "../../public/list.json";
+import React,{useState,useEffect} from "react";
+// import list from "../../public/list.json";
 import Cards from "./Cards";
 import { Link } from "react-router-dom";
+import axios from "axios"
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,14 +11,31 @@ import Slider from "react-slick";
 
 
 const Course = () => {
-  const filterData = list.filter((data)=>data.category=== "paid");
+  
+  const [book,setBook] = useState([]);
+  useEffect(()=>{
+    const getBook = async ()=>{
+    try {
+      const res = await axios.get("http://localhost:4001/books");
+      // console.log(res.data);
+      const filterData = res.data.filter((data)=>data.category=== "paid");
+      setBook(filterData);
+    } catch (error) {
+      console.log(error);
+    }
+    };
+    getBook();
+  },[])
+   
+
+ 
   var settings = {
     dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
-    initialSlide: 0,
+    initialSlide: 3,
     responsive: [
       {
         breakpoint: 1024,
@@ -69,17 +87,11 @@ const Course = () => {
         </div>
         <div>
         <Slider {...settings}>
-        {filterData.map((item) => (
+        {book.map((item) => (
         <Cards key={item.id} item={item} /> // Assuming item has a unique 'id' property
       ))}
       </Slider>
         </div>
-
-        {/* <div className="mt-12 grid grid-cols-1 md:grid-cols-4">
-          {list.map((item) => (
-            <Cards key={item.id} item={item} />
-          ))}
-        </div> */}
       </div>
     </>
   );

@@ -28,7 +28,7 @@ const Banner = () => {
               <input type="text" className="grow outline-none dark:bg-slate-900 dark:text-white" placeholder="Email" />
             </label>
           </div>
-          <button className="btn btn-secondary mt-3">Secondary</button>
+          <button className="btn btn-secondary mt-3">Get Started</button>
         </div>
 
         <div className="order-1 w-full md:w-1/2">
